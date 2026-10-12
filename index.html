@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#10131b">
+    <title>The frigg10 challenge list :3</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --page: #10131b;
+            --surface: #171b26;
+            --surface-raised: #1c2230;
+            --border: #2a3141;
+            --text: #f3f5fb;
+            --muted: #a0a8ba;
+            --accent: #9d8cff;
+            --accent-bright: #b2a6ff;
+            --green: #79d6ad;
+            --amber: #f4c779;
+            --danger: #ff8f9b;
+            --radius: 18px;
+            --content-width: 1120px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            min-width: 320px;
+            margin: 0;
+            background:
+                radial-gradient(ellipse at 82% -12%, rgba(121, 92, 235, .17), transparent 36rem),
+                var(--page);
+            color: var(--text);
+            font: 15px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        button, input, select, textarea { font: inherit; }
+        button, a { -webkit-tap-highlight-color: transparent; }
+        a { color: var(--accent-bright); }
+        button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: 3px solid rgba(178, 166, 255, .8);
+            outline-offset: 3px;
+        }
+
+        .shell { width: min(var(--content-width), calc(100% - 40px)); margin: 0 auto; }
+        .site-header { border-bottom: 1px solid rgba(255,255,255,.07); }
+        .nav {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; }
+        .brand-mark {
+            width: 38px; height: 38px; display: grid; place-items: center;
+            border-radius: 12px; background: linear-gradient(145deg, #b4a5ff, #755fe0);
+            color: #171426; font-weight: 900; letter-spacing: -.06em;
+        }
+        .brand-name { font-weight: 800; letter-spacing: -.025em; }
+        .nav-links { display: flex; align-items: center; gap: 7px; }
+        .nav-link, .profile-button {
+            border: 0; border-radius: 10px; padding: 9px 13px;
+            color: var(--muted); background: transparent; text-decoration: none; cursor: pointer;
+        }
+        .nav-link:hover, .nav-link.active { color: var(--text); background: rgba(255,255,255,.07); }
+        .profile-button { color: var(--text); border: 1px solid var(--border); background: var(--surface); }
+        .profile-button:hover { border-color: var(--accent); }
+
+        main { padding: 46px 0 80px; }
+        .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+        .eyebrow { color: var(--accent-bright); font-size: .76rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+        h1 { margin: 8px 0 8px; font-size: clamp(2.15rem, 5vw, 3.45rem); line-height: 1.08; letter-spacing: -.055em; }
+        .hero p { max-width: 600px; margin: 0; color: var(--muted); font-size: 1.04rem; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .button {
+            min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 9px 15px; border: 1px solid var(--border); border-radius: 11px;
+            color: var(--text); background: var(--surface-raised); font-weight: 700; cursor: pointer;
+            text-decoration: none; transition: transform .15s ease, border-color .15s ease, background .15s ease;
+        }
+        .button:hover { transform: translateY(-1px); border-color: #5a527b; }
+        .button.primary { color: #171426; border-color: transparent; background: var(--accent-bright); }
+        .button.primary:hover { background: #c1b8ff; }
+        .button.ghost { background: transparent; }
+        .button.danger { color: var(--danger); }
+
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 26px 0 30px; }
+        .stat { padding: 17px 19px; border: 1px solid var(--border); border-radius: 15px; background: rgba(23,27,38,.75); }
+        .stat-label { color: var(--muted); font-size: .82rem; }
+        .stat-value { margin-top: 3px; font-size: 1.5rem; font-weight: 800; letter-spacing: -.035em; }
+        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 38px 0 15px; }
+        h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.025em; }
+        .section-note { margin: 4px 0 0; color: var(--muted); font-size: .9rem; }
+
+        .toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+        .search { flex: 1; }
+        input, select, textarea {
+            width: 100%; min-height: 43px; padding: 10px 12px; border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text); background: #11151f;
+        }
+        textarea { min-height: 98px; resize: vertical; }
+        input::placeholder, textarea::placeholder { color: #717b90; }
+        select { cursor: pointer; }
+        .toolbar select { width: auto; min-width: 164px; }
+
+        .level-list { display: grid; gap: 14px; }
+        .level-card {
+            padding: 20px; border: 1px solid var(--border); border-radius: var(--radius);
+            background: linear-gradient(135deg, rgba(28,34,48,.97), rgba(23,27,38,.97));
+        }
+        .level-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+        .level-name-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .level-name { margin: 0; font-size: 1.25rem; letter-spacing: -.025em; }
+        .rank {
+            padding: 3px 9px; border: 1px solid rgba(178,166,255,.22); border-radius: 99px;
+            color: var(--accent-bright); background: rgba(157,140,255,.10); font-size: .78rem; font-weight: 800;
+        }
+        .difficulty {
+            padding: 4px 9px; border: 1px solid rgba(244,199,121,.22); border-radius: 99px;
+            color: var(--amber); background: rgba(244,199,121,.08); font-size: .75rem; font-weight: 700;
+        }
+        .level-description { margin: 10px 0 15px; color: var(--muted); }
+        .level-meta { display: flex; flex-wrap: wrap; gap: 8px 19px; color: var(--muted); font-size: .86rem; }
+        .level-meta strong { color: #e7e9f1; font-weight: 650; }
+        .level-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+        .text-link { color: var(--accent-bright); font-size: .88rem; font-weight: 700; text-decoration: none; }
+        .text-link:hover { text-decoration: underline; }
+        .records { margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--border); }
+        .records-heading { margin: 0 0 9px; color: var(--muted); font-size: .73rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+        .record-row { display: flex; justify-content: space-between; gap: 15px; padding: 8px 0; color: #e6e8f0; font-size: .9rem; }
+        .record-row + .record-row { border-top: 1px solid rgba(255,255,255,.045); }
+        .record-percent { color: var(--green); font-weight: 750; }
+        .empty { padding: 24px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); text-align: center; }
+
+        .panel-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+        .panel { padding: 22px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+        .panel h3 { margin: 0; font-size: 1.12rem; }
+        .panel > p { margin: 5px 0 18px; color: var(--muted); font-size: .88rem; }
+        .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+        .field { display: grid; gap: 6px; }
+        .field.full { grid-column: 1 / -1; }
+        .field label { color: #dfe2eb; font-size: .84rem; font-weight: 650; }
+        .form-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+        .fine-print { margin: 12px 0 0; color: var(--muted); font-size: .77rem; }
+        .pending-list { display: grid; gap: 9px; }
+        .pending-item { padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: #131722; }
+        .pending-title { font-weight: 700; }
+        .pending-meta { margin-top: 3px; color: var(--muted); font-size: .8rem; }
+        .pending-badge { float: right; color: var(--amber); font-size: .73rem; font-weight: 800; }
+        .admin-grid { margin-bottom: 28px; }
+        .admin-list { display: grid; gap: 12px; }
+        .admin-card { padding: 16px; border: 1px solid var(--border); border-radius: 14px; background: #131722; }
+        .admin-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+        .admin-card-title { font-weight: 750; }
+        .admin-card-meta { margin-top: 3px; color: var(--muted); font-size: .8rem; }
+        .admin-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; }
+        .admin-actions .button { min-height: 36px; padding: 6px 11px; font-size: .82rem; }
+        .button.approve { color: #9be1bf; border-color: rgba(121,214,173,.22); background: rgba(121,214,173,.08); }
+        .button.reject { color: var(--danger); }
+        .admin-list .form-grid { gap: 10px; }
+        .admin-list input, .admin-list textarea { min-height: 38px; padding: 7px 10px; font-size: .86rem; }
+        .footer { padding: 22px 0 34px; border-top: 1px solid rgba(255,255,255,.07); color: var(--muted); font-size: .82rem; }
+        .notice { margin-top: 14px; padding: 11px 13px; border: 1px solid rgba(244,199,121,.2); border-radius: 11px; color: #dfc99d; background: rgba(244,199,121,.055); font-size: .8rem; }
+
+        dialog {
+            width: min(470px, calc(100% - 30px)); padding: 0; border: 1px solid var(--border);
+            border-radius: 18px; color: var(--text); background: var(--surface);
+            box-shadow: 0 24px 90px rgba(0,0,0,.55);
+        }
+        dialog::backdrop { background: rgba(4,6,12,.74); backdrop-filter: blur(4px); }
+        .dialog-inner { padding: 24px; }
+        .dialog-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+        .dialog-head h2 { font-size: 1.35rem; }
+        .icon-button { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 9px; color: var(--muted); background: transparent; cursor: pointer; }
+        .dialog-form { display: grid; gap: 13px; }
+        .profile-summary { color: var(--muted); font-size: .85rem; }
+        .toast {
+            position: fixed; right: 20px; bottom: 20px; z-index: 10; max-width: min(420px, calc(100vw - 40px));
+            padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px;
+            color: var(--text); background: #202637; box-shadow: 0 12px 40px rgba(0,0,0,.4);
+        }
+        [hidden] { display: none !important; }
+
+        @media (max-width: 720px) {
+            .nav { min-height: 68px; flex-wrap: wrap; padding: 12px 0; }
+            .nav-links { order: 3; width: 100%; overflow-x: auto; }
+            .nav-link { white-space: nowrap; }
+            main { padding-top: 30px; }
+            .hero { align-items: flex-start; flex-direction: column; }
+            .stats { gap: 9px; }
+            .stat { padding: 13px; }
+            .stat-value { font-size: 1.25rem; }
+            .panel-grid { grid-template-columns: 1fr; }
+            .level-top { align-items: flex-start; }
+        }
+        @media (max-width: 460px) {
+            .shell { width: min(var(--content-width), calc(100% - 26px)); }
+            .stats { grid-template-columns: 1fr; }
+            .toolbar { align-items: stretch; flex-direction: column; }
+            .toolbar select { width: 100%; }
+            .form-grid { grid-template-columns: 1fr; }
+            .field.full { grid-column: auto; }
+            .level-card, .panel { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav shell" aria-label="Main navigation">
+            <a class="brand" href="#home" aria-label="Frigg10 home">
+                <span class="brand-mark" aria-hidden="true">F10</span>
+                <span class="brand-name">Frigg10 <span style="color:var(--muted);font-weight:500">Challenge Hub</span></span>
+            </a>
+            <div class="nav-links">
+                <a class="nav-link active" href="#home">Leaderboard</a>
+                <a class="nav-link" href="#submit-level">Suggest a level</a>
+                <a class="nav-link" href="#submit-record">Submit a record</a>
+                <a class="nav-link" href="#pending">Submissions</a>
+                <a class="nav-link" id="adminNavLink" href="#adminPanel" hidden>Admin</a>
+            </div>
+            <button class="profile-button" id="profileButton" type="button">Create profile</button>
+        </nav>
+    </header>
+
+    <main class="shell" id="home">
+        <section class="hero" aria-labelledby="page-title">
+            <div>
+                <div class="eyebrow">frigg10's cool challenge list</div>
+                <h1 id="page-title">all levels be<br>tuff</h1>
+                <p>create some challenges! or beat them, that works too.</p>
+            </div>
+            <div class="hero-actions">
+                <a class="button primary" href="#submit-record">Submit a record <span aria-hidden="true">↗</span></a>
+                <a class="button ghost" href="#submit-level">Suggest a challenge</a>
+            </div>
+        </section>
+
+        <section class="stats" aria-label="Challenge board statistics">
+            <div class="stat"><div class="stat-label">Listed challenges</div><div class="stat-value" id="levelCount">0</div></div>
+            <div class="stat"><div class="stat-label">Verified records</div><div class="stat-value" id="recordCount">0</div></div>
+            <div class="stat"><div class="stat-label">Awaiting review</div><div class="stat-value" id="pendingCount">0</div></div>
+        </section>
+
+        <section aria-labelledby="levels-heading">
+            <div class="section-heading">
+                <div>
+                    <h2 id="levels-heading">Challenge list</h2>
+                    <p class="section-note">The challenges!</p>
+                </div>
+            </div>
+            <div class="toolbar">
+                <input class="search" id="searchLevels" type="search" placeholder="Search levels, creators, or IDs…" aria-label="Search levels">
+                <select id="difficultyFilter" aria-label="Filter by difficulty">
+                    <option value="">All difficulties</option>
+                </select>
+                <select id="sortLevels" aria-label="Sort levels">
+                    <option value="rank">Sort: rank</option>
+                    <option value="name">Sort: name</option>
+                    <option value="difficulty">Sort: difficulty</option>
+                </select>
+            </div>
+            <div class="level-list" id="levelList" aria-live="polite"></div>
+        </section>
+
+        <section id="submissions" aria-labelledby="submissions-heading">
+            <div class="section-heading">
+                <div>
+                    <h2 id="submissions-heading">Community submissions</h2>
+                    <p class="section-note">Send in a challenge or share a run for review.</p>
+                </div>
+            </div>
+            <div class="panel-grid">
+                <article class="panel" id="submit-level">
+                    <h3>Suggest a challenge</h3>
+                    <p>Suggest a level for the list. An admin reviews suggestions before they are published.</p>
+                    <form id="levelForm">
+                        <div class="form-grid">
+                            <div class="field"><label for="newLevelName">Level name *</label><input id="newLevelName" name="name" required maxlength="80" placeholder="e.g. VSC"></div>
+                            <div class="field"><label for="newLevelId">Level ID</label><input id="newLevelId" name="levelId" maxlength="40" placeholder="In-game level ID"></div>
+                            <div class="field"><label for="newLevelCreator">Creator</label><input id="newLevelCreator" name="creator" maxlength="60" placeholder="Creator name"></div>
+                            <div class="field"><label for="newLevelDifficulty">Difficulty</label><input id="newLevelDifficulty" name="difficulty" maxlength="40" placeholder="e.g. Insane Demon"></div>
+                            <div class="field full"><label for="newLevelDescription">Description</label><textarea id="newLevelDescription" name="description" maxlength="500" placeholder="What makes this challenge special?"></textarea></div>
+                            <div class="field full"><label for="newLevelVideo">Verification video URL</label><input id="newLevelVideo" name="video" type="url" placeholder="https://…"></div>
+                        </div>
+                        <div class="form-actions"><span class="profile-summary">Submitted as <span class="current-user">Guest</span></span><button class="button primary" type="submit">Send level</button></div>
+                    </form>
+                </article>
+
+                <article class="panel" id="submit-record">
+                    <h3>Submit a record</h3>
+                    <p>Share your completion percentage and link to your proof.</p>
+                    <form id="recordForm">
+                        <div class="form-grid">
+                            <div class="field full"><label for="recordLevel">Challenge *</label><select id="recordLevel" name="level" required></select></div>
+                            <div class="field"><label for="recordPlayer">Player name *</label><input id="recordPlayer" name="player" required maxlength="60" placeholder="Your in-game name"></div>
+                            <div class="field"><label for="recordPercent">Completion (%) *</label><input id="recordPercent" name="percent" required type="number" min="1" max="100" step="0.01" placeholder="100"></div>
+                            <div class="field full"><label for="recordProof">Proof video URL *</label><input id="recordProof" name="proof" required type="url" placeholder="https://…"></div>
+                            <div class="field full"><label for="recordNote">Note (optional)</label><textarea id="recordNote" name="note" maxlength="300" placeholder="Anything reviewers should know?"></textarea></div>
+                        </div>
+                        <div class="form-actions"><span class="profile-summary">Submitted as <span class="current-user">Guest</span></span><button class="button primary" type="submit">Send record</button></div>
+                    </form>
+                </article>
+            </div>
+            <p class="fine-print">Submissions are saved to the shared challenge database and wait for review.</p>
+        </section>
+
+        <section id="pending" aria-labelledby="pending-heading">
+            <div class="section-heading">
+                <div>
+                    <h2 id="pending-heading">Your submissions</h2>
+                    <p class="section-note">Your level and record submissions waiting for review.</p>
+                </div>
+            </div>
+            <div class="pending-list" id="pendingList"></div>
+        </section>
+
+        <section id="adminPanel" aria-labelledby="admin-heading" hidden>
+            <div class="section-heading">
+                <div>
+                    <div class="eyebrow">Administrator tools</div>
+                    <h2 id="admin-heading">Admin panel</h2>
+                    <p class="section-note">Review community submissions and manage the published challenge list.</p>
+                </div>
+            </div>
+            <div class="panel-grid admin-grid">
+                <article class="panel">
+                    <h3>Add a challenge</h3>
+                    <p>Publish a challenge directly to the public list.</p>
+                    <form id="adminLevelForm">
+                        <div class="form-grid">
+                            <div class="field"><label for="adminLevelName">Level name *</label><input id="adminLevelName" name="name" required maxlength="80"></div>
+                            <div class="field"><label for="adminLevelRank">Rank *</label><input id="adminLevelRank" name="rank" required type="number" min="1" step="1"></div>
+                            <div class="field"><label for="adminLevelId">Level ID</label><input id="adminLevelId" name="level_id" maxlength="40"></div>
+                            <div class="field"><label for="adminLevelDifficulty">Difficulty</label><input id="adminLevelDifficulty" name="difficulty" maxlength="40"></div>
+                            <div class="field"><label for="adminLevelCreator">Creator</label><input id="adminLevelCreator" name="creator" maxlength="60"></div>
+                            <div class="field"><label for="adminLevelVerifier">Verifier</label><input id="adminLevelVerifier" name="verifier" maxlength="60"></div>
+                            <div class="field full"><label for="adminLevelDescription">Description</label><textarea id="adminLevelDescription" name="description" maxlength="500"></textarea></div>
+                            <div class="field full"><label for="adminLevelVideo">Verification video URL</label><input id="adminLevelVideo" name="video_url" type="url" placeholder="https://…"></div>
+                        </div>
+                        <div class="form-actions"><span class="profile-summary">Published immediately</span><button class="button primary" type="submit">Publish challenge</button></div>
+                    </form>
+                </article>
+                <article class="panel">
+                    <h3>Manage challenges</h3>
+                    <p>Edit published challenge details or remove a challenge.</p>
+                    <div class="admin-list" id="adminLevelsList"></div>
+                </article>
+            </div>
+            <div class="section-heading">
+                <div>
+                    <h2>Review queue <span class="rank" id="adminQueueCount">0</span></h2>
+                    <p class="section-note">Approve to publish a submission, or reject it to remove it from the queue.</p>
+                </div>
+            </div>
+            <div class="admin-list" id="adminQueue"></div>
+            <p class="fine-print">Admin permissions are checked by Supabase policies as well as the page UI. Never promote an account from the browser.</p>
+        </section>
+    </main>
+
+    <footer class="footer"><div class="shell">Frigg10 Challenge List <span aria-hidden="true">·</span> The official frigg10 challenge list :3</div></footer>
+
+    <dialog id="profileDialog" aria-labelledby="profileTitle">
+        <div class="dialog-inner">
+            <div class="dialog-head">
+                <div><div class="eyebrow">Your hub profile</div><h2 id="profileTitle">Create your profile</h2></div>
+                <button class="icon-button" id="closeProfile" type="button" aria-label="Close">✕</button>
+            </div>
+            <div id="profileContents"></div>
+        </div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        "use strict";
+
+        const SUPABASE_URL = "https://gkmtooxdathecutgjcbf.supabase.co";
+        const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_J1LYE5CFfHfMdF51_vKHwA_cexRJ8UD";
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+        const levelList = document.getElementById("levelList");
+        const toast = document.getElementById("toast");
+        let toastTimer;
+        let levels = [];
+        let submissions = [];
+        let currentUser = null;
+        let isAdmin = false;
+
+        function escapeHtml(value) {
+            return String(value ?? "").replace(/[&<>"']/g, char => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+            })[char]);
+        }
+
+        function validHttpUrl(value) {
+            if (!value) return "";
+            try {
+                const url = new URL(value);
+                return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+            } catch {
+                return "";
+            }
+        }
+
+        function safeLink(value, label) {
+            const url = validHttpUrl(value);
+            return url
+                ? `<a class="text-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`
+                : "";
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.hidden = false;
+            window.clearTimeout(toastTimer);
+            toastTimer = window.setTimeout(() => { toast.hidden = true; }, 3600);
+        }
+
+        function currentProfile() {
+            if (!currentUser) return null;
+            return {
+                name: currentUser.user_metadata?.display_name || currentUser.email?.split("@")[0] || "Player",
+                email: currentUser.email || ""
+            };
+        }
+
+        function updateProfileDisplay() {
+            const profile = currentProfile();
+            document.getElementById("profileButton").textContent = profile ? profile.name : "Sign in / create profile";
+            document.querySelectorAll(".current-user").forEach(node => {
+                node.textContent = profile ? profile.name : "Guest";
+            });
+            document.getElementById("adminNavLink").hidden = !isAdmin;
+            document.getElementById("adminPanel").hidden = !isAdmin;
+        }
+
+        function renderLevels() {
+            const search = document.getElementById("searchLevels").value.trim().toLowerCase();
+            const difficulty = document.getElementById("difficultyFilter").value;
+            const sort = document.getElementById("sortLevels").value;
+            let visible = levels.filter(level => {
+                const haystack = [level.name, level.creator, level.levelId, level.difficulty].join(" ").toLowerCase();
+                return (!search || haystack.includes(search)) && (!difficulty || level.difficulty === difficulty);
+            });
+            if (sort === "name") visible.sort((a, b) => a.name.localeCompare(b.name));
+            else if (sort === "difficulty") visible.sort((a, b) => a.difficulty.localeCompare(b.difficulty) || a.rank - b.rank);
+            else visible.sort((a, b) => a.rank - b.rank);
+
+            if (!visible.length) {
+                levelList.innerHTML = '<div class="empty">oops! no challenges... try a different search or filter :D</div>';
+            } else {
+                levelList.innerHTML = visible.map(level => {
+                    const records = Array.isArray(level.records) ? level.records : [];
+                    const recordMarkup = records.length
+                        ? records.map(record => `<div class="record-row"><span>${escapeHtml(record.player)} <span class="record-percent">(${escapeHtml(record.percent)}%)</span></span>${safeLink(record.proof, "Proof ↗") || '<span class="section-note">No proof link</span>'}</div>`).join("")
+                        : '<div class="section-note">No records yet — be the first to submit one.</div>';
+                    const links = [
+                        safeLink(level.video, "Verification video ↗"),
+                        level.levelId ? `<span class="section-note">Level ID: ${escapeHtml(level.levelId)}</span>` : ""
+                    ].filter(Boolean).join("");
+                    return `<article class="level-card">
+                        <div class="level-top">
+                            <div>
+                                <div class="level-name-row"><h3 class="level-name">${escapeHtml(level.name)}</h3><span class="rank">#${escapeHtml(level.rank)}</span><span class="difficulty">${escapeHtml(level.difficulty || "Unrated")}</span></div>
+                                ${level.description ? `<p class="level-description">${escapeHtml(level.description)}</p>` : ""}
+                            </div>
+                        </div>
+                        <div class="level-meta">
+                            <span>Creator: <strong>${escapeHtml(level.creator || "Unknown")}</strong></span>
+                            <span>Verifier: <strong>${escapeHtml(level.verifier || "Pending")}</strong></span>
+                        </div>
+                        ${links ? `<div class="level-links">${links}</div>` : ""}
+                        <div class="records"><h4 class="records-heading">Victors &amp; records · ${records.length}</h4>${recordMarkup}</div>
+                    </article>`;
+                }).join("");
+            }
+            document.getElementById("levelCount").textContent = levels.length;
+            document.getElementById("recordCount").textContent = levels.reduce((count, level) => count + (Array.isArray(level.records) ? level.records.length : 0), 0);
+            refreshLevelOptions();
+        }
+
+        function refreshFilters() {
+            const filter = document.getElementById("difficultyFilter");
+            const selected = filter.value;
+            const difficulties = [...new Set(levels.map(level => level.difficulty).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+            filter.innerHTML = '<option value="">All difficulties</option>' + difficulties.map(item => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join("");
+            if (difficulties.includes(selected)) filter.value = selected;
+        }
+
+        function refreshLevelOptions() {
+            const select = document.getElementById("recordLevel");
+            const selected = select.value;
+            select.innerHTML = '<option value="">Choose a challenge…</option>' + levels
+                .slice().sort((a, b) => a.rank - b.rank)
+                .map(level => `<option value="${escapeHtml(level.id)}">${escapeHtml(level.name)} (#${escapeHtml(level.rank)})</option>`).join("");
+            if (levels.some(level => level.id === selected)) select.value = selected;
+        }
+
+        function renderSubmissions() {
+            document.getElementById("pendingCount").textContent = submissions.length;
+            const list = document.getElementById("pendingList");
+            list.innerHTML = submissions.length
+                ? submissions.map(item => `<article class="pending-item">
+                    <span class="pending-badge">PENDING REVIEW</span>
+                    <div class="pending-title">${escapeHtml(item.title)}</div>
+                    <div class="pending-meta">${escapeHtml(item.type)} · submitted ${escapeHtml(new Date(item.created_at).toLocaleDateString())}</div>
+                </article>`).join("")
+                : '<div class="empty">No submissions are waiting for review yet.</div>';
+        }
+
+        async function loadBoard() {
+            levelList.innerHTML = '<div class="empty">Loading challenges…</div>';
+            if (currentUser) {
+                const profileResult = await supabaseClient.from("profiles").select("is_admin").eq("id", currentUser.id).single();
+                if (profileResult.error) {
+                    console.error("Could not check the current user's admin role.", profileResult.error);
+                    isAdmin = false;
+                } else {
+                    isAdmin = profileResult.data.is_admin === true;
+                }
+            } else {
+                isAdmin = false;
+            }
+            updateProfileDisplay();
+            const [levelsResult, recordsResult, submissionsResult] = await Promise.all([
+                supabaseClient.from("challenge_levels").select("*").order("rank"),
+                supabaseClient.from("records").select("*").eq("approved", true),
+                currentUser
+                    ? supabaseClient.from("submissions").select("*").eq(isAdmin ? "status" : "user_id", isAdmin ? "pending" : currentUser.id).order("created_at", { ascending: false })
+                    : Promise.resolve({ data: [], error: null })
+            ]);
+
+            const failed = [levelsResult, recordsResult, submissionsResult].find(result => result.error);
+            if (failed) {
+                console.error("Could not load the challenge board from Supabase.", failed.error);
+                levelList.innerHTML = '<div class="empty">Could not load the challenge board. Check the Supabase setup and try refreshing.</div>';
+                showToast("Could not load shared data from Supabase.");
+                return;
+            }
+
+            levels = levelsResult.data.map(level => ({
+                id: level.id,
+                name: level.name,
+                rank: level.rank,
+                difficulty: level.difficulty || "Unrated",
+                creator: level.creator || "Unknown",
+                verifier: level.verifier || "Pending",
+                levelId: level.level_id || "",
+                description: level.description || "",
+                video: level.video_url || "",
+                records: recordsResult.data
+                    .filter(record => record.level_id === level.id)
+                    .map(record => ({ player: record.player_name, percent: record.percent, proof: record.proof_url }))
+            }));
+            submissions = submissionsResult.data;
+            refreshFilters();
+            renderLevels();
+            renderSubmissions();
+            if (isAdmin) {
+                renderAdminQueue();
+                renderAdminLevels();
+            }
+        }
+
+        function requireProfile() {
+            if (currentUser) return true;
+            showToast("Please create a profile or sign in before submitting.");
+            renderProfileDialog();
+            dialog.showModal();
+            return false;
+        }
+
+        async function sendSubmission(type, title, details) {
+            if (!currentUser) {
+                requireProfile();
+                return false;
+            }
+            const { error } = await supabaseClient.from("submissions").insert({
+                user_id: currentUser.id,
+                type,
+                title,
+                details,
+                status: "pending"
+            });
+            if (error) {
+                console.error("Could not send submission to Supabase.", error);
+                showToast("Submission failed. Please try again.");
+                return false;
+            }
+            await loadBoard();
+            return true;
+        }
+
+        document.getElementById("levelForm").addEventListener("submit", event => {
+            event.preventDefault();
+            if (!requireProfile()) return;
+            const formElement = event.currentTarget;
+            const form = new FormData(formElement);
+            const values = Object.fromEntries(form.entries());
+            const name = String(values.name || "").trim();
+            const video = String(values.video || "").trim();
+            if (video && !validHttpUrl(video)) {
+                showToast("Enter a valid http or https video URL.");
+                return;
+            }
+            void sendSubmission("Level", name, values).then(sent => {
+                if (!sent) return;
+                formElement.reset();
+                showToast("Level submitted for review.");
+                document.getElementById("pending").scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+        });
+
+        document.getElementById("recordForm").addEventListener("submit", event => {
+            event.preventDefault();
+            if (!requireProfile()) return;
+            const form = new FormData(event.currentTarget);
+            const level = levels.find(item => item.id === form.get("level"));
+            const player = String(form.get("player") || "").trim();
+            const percent = Number(form.get("percent"));
+            const proof = String(form.get("proof") || "").trim();
+            if (!level || !player || !Number.isFinite(percent) || percent < 1 || percent > 100 || !validHttpUrl(proof)) {
+                showToast("Choose a challenge, enter a valid completion, and provide a proof URL.");
+                return;
+            }
+            const formElement = event.currentTarget;
+            const details = {
+                level_id: level.id,
+                player_name: player,
+                percent,
+                proof_url: validHttpUrl(proof),
+                note: String(form.get("note") || "").trim()
+            };
+            void sendSubmission("Record", `${player} — ${level.name} (${percent}%)`, details).then(sent => {
+                if (!sent) return;
+                formElement.reset();
+                showToast("Record sent! It has been added to the submission inbox for review.");
+                document.getElementById("pending").scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+
+            document.getElementById("adminLevelForm").addEventListener("submit", async event => {
+                event.preventDefault();
+                if (!isAdmin) return;
+                const formElement = event.currentTarget;
+                const values = Object.fromEntries(new FormData(formElement).entries());
+                const name = String(values.name || "").trim();
+                const rank = Number(values.rank);
+                const video = String(values.video_url || "").trim();
+                if (!name || !Number.isInteger(rank) || rank < 1 || (video && !validHttpUrl(video))) {
+                    showToast("Enter a name, a positive whole-number rank, and a valid video URL.");
+                    return;
+                }
+                const row = {
+                    id: `level-${crypto.randomUUID()}`,
+                    name,
+                    rank,
+                    level_id: String(values.level_id || "").trim(),
+                    difficulty: String(values.difficulty || "Unrated").trim() || "Unrated",
+                    creator: String(values.creator || "Unknown").trim() || "Unknown",
+                    verifier: String(values.verifier || "Frigg10").trim() || "Frigg10",
+                    description: String(values.description || "").trim(),
+                    video_url: validHttpUrl(video)
+                };
+                const { error } = await supabaseClient.from("challenge_levels").insert(row);
+                if (error) {
+                    console.error("Could not publish challenge.", error);
+                    showToast(error.code === "23505" ? "That rank is already in use. Choose another rank." : "Could not publish challenge.");
+                    return;
+                }
+                formElement.reset();
+                showToast("Challenge published.");
+                await loadBoard();
+            });
+
+            async function saveEditedLevel(event) {
+                const form = event.target.closest("form[data-level-id]");
+                if (!form || !isAdmin) return;
+                event.preventDefault();
+                const formData = new FormData(form);
+                const rank = Number(formData.get("rank"));
+                const video = String(formData.get("video_url") || "").trim();
+                if (!Number.isInteger(rank) || rank < 1 || (video && !validHttpUrl(video))) {
+                    showToast("Enter a positive whole-number rank and a valid video URL.");
+                    return;
+                }
+                const changes = {
+                    name: String(formData.get("name") || "").trim(),
+                    rank,
+                    level_id: String(formData.get("level_id") || "").trim(),
+                    difficulty: String(formData.get("difficulty") || "Unrated").trim() || "Unrated",
+                    creator: String(formData.get("creator") || "Unknown").trim() || "Unknown",
+                    verifier: String(formData.get("verifier") || "Pending").trim() || "Pending",
+                    description: String(formData.get("description") || "").trim(),
+                    video_url: validHttpUrl(video)
+                };
+                if (!changes.name) {
+                    showToast("Level name is required.");
+                    return;
+                }
+                const { error } = await supabaseClient.from("challenge_levels").update(changes).eq("id", form.dataset.levelId);
+                if (error) {
+                    console.error("Could not update challenge.", error);
+                    showToast(error.code === "23505" ? "That rank is already in use." : "Could not update challenge.");
+                    return;
+                }
+                showToast("Challenge updated.");
+                await loadBoard();
+            }
+
+            document.getElementById("adminLevelsList").addEventListener("submit", saveEditedLevel);
+
+            document.getElementById("adminLevelsList").addEventListener("click", async event => {
+                const button = event.target.closest("button[data-delete-level]");
+                if (!button || !isAdmin) return;
+                const level = levels.find(item => item.id === button.dataset.deleteLevel);
+                if (!level || !window.confirm(`Delete "${level.name}"? Its approved records will also be deleted.`)) return;
+                const { error } = await supabaseClient.from("challenge_levels").delete().eq("id", level.id);
+                if (error) {
+                    console.error("Could not delete challenge.", error);
+                    showToast("Could not delete challenge.");
+                    return;
+                }
+                showToast("Challenge deleted.");
+                await loadBoard();
+            });
+
+            async function reviewSubmission(submissionId, approve) {
+                if (!isAdmin) return;
+                const { error } = await supabaseClient.rpc("review_submission", {
+                    p_submission_id: submissionId,
+                    p_approve: approve
+                });
+                if (error) {
+                    console.error("Could not review submission.", error);
+                    showToast(error.message || "Could not update submission.");
+                    return;
+                }
+                showToast(approve ? "Submission approved and published." : "Submission rejected.");
+                await loadBoard();
+            }
+
+            document.getElementById("adminQueue").addEventListener("click", event => {
+                const button = event.target.closest("button[data-review-id]");
+                if (button) void reviewSubmission(button.dataset.reviewId, button.dataset.action === "approve");
+            });
+
+            function renderAdminQueue() {
+                const queue = document.getElementById("adminQueue");
+                document.getElementById("adminQueueCount").textContent = submissions.length;
+                queue.innerHTML = submissions.length
+                    ? submissions.map(item => {
+                        const details = item.details || {};
+                        const detailMarkup = item.type === "Level"
+                            ? `<div class="admin-card-meta">Creator: ${escapeHtml(details.creator || "Unknown")} · Difficulty: ${escapeHtml(details.difficulty || "Unrated")} · Level ID: ${escapeHtml(details.levelId || "—")}</div>
+                                ${details.description ? `<p class="section-note">${escapeHtml(details.description)}</p>` : ""}
+                                ${safeLink(details.video, "Verification video ↗")}`
+                            : `<div class="admin-card-meta">Player: ${escapeHtml(details.player_name || "Unknown")} · Completion: ${escapeHtml(details.percent || "—")}% · Challenge: ${escapeHtml(levels.find(level => level.id === details.level_id)?.name || "Unknown")}</div>
+                                ${details.note ? `<p class="section-note">${escapeHtml(details.note)}</p>` : ""}
+                                ${safeLink(details.proof_url, "Proof video ↗")}`;
+                        return `<article class="admin-card">
+                            <div class="admin-card-head"><div><div class="admin-card-title">${escapeHtml(item.title)}</div><div class="admin-card-meta">${escapeHtml(item.type)} submission · ${escapeHtml(new Date(item.created_at).toLocaleString())}</div></div><span class="pending-badge">PENDING</span></div>
+                            ${detailMarkup}
+                            <div class="admin-actions">
+                                <button class="button approve" type="button" data-review-id="${escapeHtml(item.id)}" data-action="approve">Approve &amp; publish</button>
+                                <button class="button reject" type="button" data-review-id="${escapeHtml(item.id)}" data-action="reject">Reject</button>
+                            </div>
+                        </article>`;
+                    }).join("")
+                    : '<div class="empty">The review queue is clear.</div>';
+            }
+
+            function renderAdminLevels() {
+                const list = document.getElementById("adminLevelsList");
+                list.innerHTML = levels.length
+                    ? levels.map(level => `<article class="admin-card">
+                        <div class="admin-card-head"><div><div class="admin-card-title">${escapeHtml(level.name)}</div><div class="admin-card-meta">Published at rank #${escapeHtml(level.rank)}</div></div></div>
+                        <form data-level-id="${escapeHtml(level.id)}">
+                            <div class="form-grid">
+                                <div class="field"><label>Name</label><input name="name" required maxlength="80" value="${escapeHtml(level.name)}"></div>
+                                <div class="field"><label>Rank</label><input name="rank" required type="number" min="1" step="1" value="${escapeHtml(level.rank)}"></div>
+                                <div class="field"><label>Level ID</label><input name="level_id" maxlength="40" value="${escapeHtml(level.levelId)}"></div>
+                                <div class="field"><label>Difficulty</label><input name="difficulty" maxlength="40" value="${escapeHtml(level.difficulty)}"></div>
+                                <div class="field"><label>Creator</label><input name="creator" maxlength="60" value="${escapeHtml(level.creator)}"></div>
+                                <div class="field"><label>Verifier</label><input name="verifier" maxlength="60" value="${escapeHtml(level.verifier)}"></div>
+                                <div class="field full"><label>Description</label><textarea name="description" maxlength="500">${escapeHtml(level.description)}</textarea></div>
+                                <div class="field full"><label>Verification video URL</label><input name="video_url" type="url" value="${escapeHtml(level.video)}"></div>
+                            </div>
+                            <div class="admin-actions"><button class="button primary" type="submit">Save changes</button><button class="button reject" type="button" data-delete-level="${escapeHtml(level.id)}">Delete challenge</button></div>
+                        </form>
+                    </article>`).join("")
+                    : '<div class="empty">No challenges to manage.</div>';
+            }
+        });
+
+        const dialog = document.getElementById("profileDialog");
+        const profileContents = document.getElementById("profileContents");
+        let authMode = "signup";
+
+        function renderProfileDialog() {
+            const profile = currentProfile();
+            if (profile) {
+                document.getElementById("profileTitle").textContent = "Your profile";
+                profileContents.innerHTML = `<div class="profile-summary">Signed in as <strong>${escapeHtml(profile.name)}</strong> (${escapeHtml(profile.email)}).</div>
+                    <p class="notice">Your profile is secured by Supabase Auth. Never share your password with anyone.</p>
+                    <div class="form-actions"><button class="button danger" id="signOut" type="button">Sign out</button><button class="button" id="profileDone" type="button">Done</button></div>`;
+                document.getElementById("signOut").addEventListener("click", async () => {
+                    const { error } = await supabaseClient.auth.signOut();
+                    if (error) {
+                        console.error("Could not sign out.", error);
+                        showToast("Sign out failed. Please try again.");
+                        return;
+                    }
+                    dialog.close();
+                    showToast("You have signed out.");
+                });
+                document.getElementById("profileDone").addEventListener("click", () => dialog.close());
+                return;
+            }
+            const creating = authMode === "signup";
+            document.getElementById("profileTitle").textContent = creating ? "Create your profile" : "Welcome back";
+            profileContents.innerHTML = `<form class="dialog-form" id="profileForm">
+                <p class="profile-summary">${creating ? "Create an account with your email to submit levels and records." : "Sign in to your Frigg10 account."}</p>
+                ${creating ? '<div class="field"><label for="profileName">Display name *</label><input id="profileName" name="name" required maxlength="40" autocomplete="nickname" placeholder="How the community sees you"></div>' : ""}
+                <div class="field"><label for="profileEmail">Email address *</label><input id="profileEmail" name="email" required type="email" maxlength="254" autocomplete="email" placeholder="you@example.com"></div>
+                <div class="field"><label for="profilePassword">Password *</label><input id="profilePassword" name="password" required type="password" minlength="8" autocomplete="${creating ? "new-password" : "current-password"}" placeholder="At least 8 characters"></div>
+                <button class="button primary" type="submit">${creating ? "Create account" : "Sign in"}</button>
+                <button class="button ghost" id="toggleAuthMode" type="button">${creating ? "Already have an account? Sign in" : "New here? Create an account"}</button>
+                <p class="fine-print">Email confirmation may be required. If the confirmation email doesn’t arrive, check Supabase Auth settings and your spam folder.</p>
+            </form>`;
+            document.getElementById("toggleAuthMode").addEventListener("click", () => {
+                authMode = creating ? "signin" : "signup";
+                renderProfileDialog();
+            });
+            document.getElementById("profileForm").addEventListener("submit", async event => {
+                event.preventDefault();
+                const form = new FormData(event.currentTarget);
+                const name = String(form.get("name") || "").trim();
+                const email = String(form.get("email") || "").trim().toLowerCase();
+                const password = String(form.get("password") || "");
+                if ((creating && !name) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 8) {
+                    showToast("Enter a valid email and a password with at least 8 characters.");
+                    return;
+                }
+                const result = creating
+                    ? await supabaseClient.auth.signUp({
+                        email,
+                        password,
+                        options: { data: { display_name: name } }
+                    })
+                    : await supabaseClient.auth.signInWithPassword({ email, password });
+                if (result.error) {
+                    console.error(`Supabase ${creating ? "sign-up" : "sign-in"} failed.`, result.error);
+                    showToast(result.error.message || "Authentication failed. Please try again.");
+                    return;
+                }
+                if (result.data.session) {
+                    currentUser = result.data.session.user;
+                    updateProfileDisplay();
+                    dialog.close();
+                    void loadBoard();
+                    showToast(creating ? `Welcome, ${name}!` : `Welcome back, ${currentProfile().name}!`);
+                } else {
+                    authMode = "signin";
+                    renderProfileDialog();
+                    showToast("Check your email to confirm your account, then sign in.");
+                }
+            });
+        }
+
+        document.getElementById("profileButton").addEventListener("click", () => {
+            authMode = "signup";
+            renderProfileDialog();
+            dialog.showModal();
+        });
+        document.getElementById("closeProfile").addEventListener("click", () => dialog.close());
+        dialog.addEventListener("click", event => {
+            if (event.target === dialog) dialog.close();
+        });
+
+        document.getElementById("searchLevels").addEventListener("input", renderLevels);
+        document.getElementById("difficultyFilter").addEventListener("change", renderLevels);
+        document.getElementById("sortLevels").addEventListener("change", renderLevels);
+
+        supabaseClient.auth.onAuthStateChange((_event, session) => {
+            currentUser = session?.user || null;
+            updateProfileDisplay();
+            void loadBoard();
+        });
+        supabaseClient.auth.getSession().then(({ data, error }) => {
+            if (error) {
+                console.error("Could not restore the Supabase session.", error);
+                showToast("Could not restore your sign-in session.");
+            }
+            currentUser = data.session?.user || null;
+            updateProfileDisplay();
+            void loadBoard();
+        });
+    </script>
+</body>
+</html>
